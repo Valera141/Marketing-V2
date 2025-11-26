@@ -4,7 +4,6 @@ package com.example.Marketing.model;
 
 import java.time.OffsetDateTime;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
