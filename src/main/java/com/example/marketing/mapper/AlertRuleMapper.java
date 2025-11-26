@@ -3,57 +3,82 @@ package com.example.marketing.mapper;
 import com.example.marketing.dto.AlertRuleRequestDTO;
 import com.example.marketing.dto.AlertRuleResponseDTO;
 import com.example.marketing.model.AlertRule;
+import com.example.marketing.model.Campaign;
+import com.example.marketing.model.NotificationChannel;
 
 public class AlertRuleMapper {
 
+	// -------------------------
+	// Convertir entidad → DTO
+	// -------------------------
 	public static AlertRuleResponseDTO toResponse(AlertRule entity) {
 		if (entity == null) return null;
 
 		return AlertRuleResponseDTO.builder()
 				.ruleId(entity.getRuleId())
-				.campaign(entity.getCampaign() != null ? entity.getCampaign() : null)
+				.campaign(entity.getCampaign() != null ? entity.getCampaign().getCampaignId() : null)
 				.ruleName(entity.getRuleName())
 				.description(entity.getDescription())
 				.conditionsJson(entity.getConditionsJson())
-				.notificationChannel(entity.getNotificationChannel())
+				.notificationChannel(entity.getNotificationChannel() != null ?
+						entity.getNotificationChannel().getChannelId() : null)
 				.active(entity.getIsActive())
 				.build();
 	}
 
-	public static AlertRule toEntity(AlertRuleRequestDTO request) {
-		if (request == null) return null;
+
+	// -------------------------
+	// Convertir DTO → Entidad (nuevo registro)
+	// -------------------------
+	public static AlertRule toEntity(AlertRuleRequestDTO dto) {
+		if (dto == null) return null;
 
 		AlertRule entity = new AlertRule();
 
-		entity.setCampaign(request.campaignId());
-		entity.setRuleName(request.ruleName());
-		entity.setDescription(request.description());
-		entity.setConditionsJson(request.conditionsJson());
-		entity.setNotificationChannel(request.notificationChannelId());
-		entity.setIsActive(request.isActive());
+		entity.setRuleName(dto.ruleName());
+		entity.setDescription(dto.description());
+		entity.setConditionsJson(dto.conditionsJson());
+		entity.setIsActive(dto.isActive());
+
+		// ---- Campaign (solo seteamos ID) ----
+		Campaign campaign = new Campaign();
+		campaign.setCampaignId(dto.campaignId());
+		entity.setCampaign(campaign);
+
+		// ---- NotificationChannel (solo seteamos ID si viene) ----
+		if (dto.notificationChannelId() != null) {
+			NotificationChannel channel = new NotificationChannel();
+			channel.setChannelId(dto.notificationChannelId());
+			entity.setNotificationChannel(channel);
+		}
 
 		return entity;
 	}
 
-	public static void copyToEntity(AlertRuleRequestDTO request, AlertRule existing) {
-		if (request == null || existing == null) return;
 
-		if (request.campaignId() != null)
-			existing.setCampaign(request.campaignId());
+	// ----------------------------------------
+	// Actualizar entidad existente (PATCH/PUT)
+	// ----------------------------------------
+	public static void copyToEntity(AlertRuleRequestDTO dto, AlertRule existing) {
+		if (dto == null || existing == null) return;
 
-		if (request.ruleName() != null)
-			existing.setRuleName(request.ruleName());
+		existing.setRuleName(dto.ruleName());
+		existing.setDescription(dto.description());
+		existing.setConditionsJson(dto.conditionsJson());
+		existing.setIsActive(dto.isActive());
 
-		if (request.description() != null)
-			existing.setDescription(request.description());
+		// Campaign
+		Campaign c = new Campaign();
+		c.setCampaignId(dto.campaignId());
+		existing.setCampaign(c);
 
-		if (request.conditionsJson() != null)
-			existing.setConditionsJson(request.conditionsJson());
-
-		if (request.notificationChannelId() != null)
-			existing.setNotificationChannel(request.notificationChannelId());
-
-		if (request.isActive() != null)
-			existing.setIsActive(request.isActive());
+		// Notification channel
+		if (dto.notificationChannelId() != null) {
+			NotificationChannel nc = new NotificationChannel();
+			nc.setChannelId(dto.notificationChannelId());
+			existing.setNotificationChannel(nc);
+		} else {
+			existing.setNotificationChannel(null);
+		}
 	}
 }

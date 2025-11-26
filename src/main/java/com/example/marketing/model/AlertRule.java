@@ -3,12 +3,7 @@ package com.example.marketing.model;
 
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,10 +38,10 @@ public class AlertRule {
 	// Relaciones (puedes reemplazar Object por su clase real)
 	@ManyToOne
 	@JoinColumn(name = "campaign_id", nullable = false)
-	private Object Campaign;
+	private Campaign Campaign;
 
-//	@ManyToOne
-//	@JoinColumn(name = "notification_channel_id")
-//	private Object notificationChannel;
+	@ManyToOne
+	@JoinColumn(name = "notification_channel_id")
+	private NotificationChannel notificationChannel;
 }
 

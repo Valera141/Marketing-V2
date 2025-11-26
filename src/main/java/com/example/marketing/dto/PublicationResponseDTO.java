@@ -17,17 +17,17 @@ public class PublicationResponseDTO {
     @JsonProperty("identifier publication api")
     private Integer publicationApiId;
 
-    // @JsonProperty("campaign")
-    // private Integer campaignId;
+     @JsonProperty("campaign")
+     private Integer campaignId;
 
-    // @JsonProperty("campaign name")
-    // private String campaignName;
+     @JsonProperty("campaign name")
+     private String campaignName;
     
-    // @JsonProperty("author api")
-    // private Integer authorApiId;
+     @JsonProperty("author api")
+     private Integer authorApiId;
     
-    // @JsonProperty("author username")
-    // private String authorUsername;
+     @JsonProperty("author username")
+     private String authorUsername;
 
     @JsonProperty("text content")
     private String textContent;
