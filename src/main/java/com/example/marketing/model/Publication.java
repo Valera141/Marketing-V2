@@ -64,8 +64,8 @@ public class Publication {
      @JoinColumn(name = "author_api_id", nullable = false)
      private Author author;
 
-    // @ManyToOne(fetch = FetchType.LAZY) // Usar LAZY es una buena práctica para el rendimiento
-    // @JoinColumn(name = "campaign_id", nullable = false)
-    // private Campaign campaign;
+    @ManyToOne(fetch = FetchType.LAZY) // Usar LAZY es una buena práctica para el rendimiento
+    @JoinColumn(name = "campaign_id", nullable = false)
+    private Campaign campaign;
 
 }

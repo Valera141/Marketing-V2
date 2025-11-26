@@ -43,7 +43,7 @@ public class AlertRule {
 	// Relaciones (puedes reemplazar Object por su clase real)
 	@ManyToOne
 	@JoinColumn(name = "campaign_id", nullable = false)
-	private Object campaign;
+	private Object Campaign;
 
 //	@ManyToOne
 //	@JoinColumn(name = "notification_channel_id")
