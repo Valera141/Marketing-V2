@@ -1,6 +1,12 @@
 package com.example.marketing.model;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -23,5 +29,6 @@ public class NotificationChannel {
     private String channelType; // Ej: EMAIL, SLACK
 
     @Column(name = "configuration", nullable = false, columnDefinition = "JSONB")
-    private String configuration; // Guardamos el JSON como String
+    @JdbcTypeCode(SqlTypes.JSON)
+    private String configuration;
 }
